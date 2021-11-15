@@ -1,6 +1,6 @@
 import pytest
 
-from boilerplate.examples.classes import Person
+from chatbot.examples.classes import Person
 
 
 class TestPerson:
