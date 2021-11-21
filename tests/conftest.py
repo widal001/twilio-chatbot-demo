@@ -1,5 +1,7 @@
 import pytest
+from fastapi.testclient import TestClient
 
+from chatbot import app
 from chatbot.examples.classes import Person
 
 
@@ -12,3 +14,9 @@ def alice():
         age: 35
     """
     return Person("Alice", "Doe", 35)
+
+
+@pytest.fixture(scope="session", name="mock_client")
+def fixture_client():
+    """Exposes a mock client for api unit tests"""
+    return TestClient(app)
