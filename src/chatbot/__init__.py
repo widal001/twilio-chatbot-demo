@@ -1,1 +1,3 @@
-__all__ = ["examples"]
+__all__ = ["app"]
+
+from chatbot.api import app
