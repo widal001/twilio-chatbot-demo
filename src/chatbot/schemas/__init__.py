@@ -1,7 +1,6 @@
 __all__ = [
     "OutMixin",
-    "AnswerIn",
-    "AnswerOut",
+    "Answer",
     "QuestionIn",
     "QuestionOut",
     "Response",
@@ -11,7 +10,7 @@ __all__ = [
 ]
 
 from chatbot.schemas.base import OutMixin
-from chatbot.schemas.answer import AnswerIn, AnswerOut
+from chatbot.schemas.answer import Answer
 from chatbot.schemas.question import QuestionIn, QuestionOut
 from chatbot.schemas.response import Response
 from chatbot.schemas.survey import (

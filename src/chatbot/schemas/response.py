@@ -3,13 +3,17 @@ from typing import List
 
 from pydantic import BaseModel
 
-from chatbot.schemas import OutMixin, AnswerOut
+from chatbot.schemas import OutMixin, Answer
 
 
 class ResponseBase(BaseModel):
+    """Base schema for a response object"""
+
     session_id: str
-    answers: List[AnswerOut]
+    answers: List[Answer]
 
 
 class Response(ResponseBase, OutMixin):
+    """Serializes a survey response for the response body"""
+
     pass
