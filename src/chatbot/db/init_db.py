@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from chatbot.db import Base
-import chatbot.models  # noqa: 401  -- prevents unused import error
+import chatbot.models  # noqa: 401 pylint: disable=unused-import
 from tests.utils.populate_db import populate_db
 
 # make sure all SQL Alchemy models are imported (app.models) before initializing

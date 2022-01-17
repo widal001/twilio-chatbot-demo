@@ -2,7 +2,7 @@
 imports commonly used SQLAlchemy data types to avoid having to re-import them
 across the other model definitions
 """
-# pylint: disable=W0611
+# pylint: disable=unused-import
 from __future__ import annotations  # prevents NameError for typehints
 from typing import Any
 
@@ -32,5 +32,5 @@ class Base:
     # Generate __tablename__ automatically
 
     @declared_attr
-    def __tablename__(cls) -> str:
+    def __tablename__(cls) -> str:  # pylint: disable=no-self-argument
         return cls.__name__.lower()

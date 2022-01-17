@@ -4,7 +4,7 @@ session object that organizes and executes transactions against the datbase
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-import chatbot.config as config
+from chatbot import config
 
 engine = create_engine(config.settings.database_url, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -5,9 +5,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from chatbot import app
-import chatbot.db as db
-import chatbot.config as config
+from chatbot import app, db, config
 
 
 @pytest.fixture(scope="session", name="mock_client")
