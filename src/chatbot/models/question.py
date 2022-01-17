@@ -1,12 +1,10 @@
 from __future__ import annotations  # prevents NameError for typehints
 
-import chatbot.database as db
+import chatbot.db.base as db
 
 
 class Question(db.Base):
     """Table that contains the questions that comprise a given survey"""
-
-    __tablename__ = "question"
 
     # columns
     id = db.Column(db.Integer, primary_key=True, index=True)
