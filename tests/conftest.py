@@ -8,12 +8,6 @@ from sqlalchemy.orm import sessionmaker
 from chatbot import app, db, config
 
 
-@pytest.fixture(scope="session", name="mock_client")
-def fixture_client():
-    """Exposes a mock client for api unit tests"""
-    return TestClient(app)
-
-
 @pytest.fixture(scope="session", name="test_config")
 def fixture_config():
     """Returns the configuration settings for use in tests"""
@@ -21,7 +15,7 @@ def fixture_config():
 
 
 @pytest.fixture(scope="session", name="test_session")
-def fixture_db(mock_client, test_config):
+def fixture_session(test_config):
     """Creates a local database for unit testing"""
     # TODO: Replace this code with yield db.session.SessionLocal()
     # after figuring out how to inject testing configurations
@@ -34,3 +28,16 @@ def fixture_db(mock_client, test_config):
     with TestSession() as session:
         db.init_db(session, testing=True)
         yield session
+
+
+@pytest.fixture(scope="session", name="mock_client")
+def fixture_client(test_session):
+    """Exposes a mock client for api unit tests"""
+
+    def override_get_db():
+        """Overrides the get_db() dependency to yield a test session"""
+        yield test_session
+
+    app.dependency_overrides[db.get_db] = override_get_db
+    yield TestClient(app)
+    del app.dependency_overrides[db.get_db]  # restores get_db() dependency
