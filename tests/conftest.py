@@ -14,7 +14,7 @@ def fixture_config():
     return config.settings.from_env("testing")
 
 
-@pytest.fixture(scope="session", name="test_session")
+@pytest.fixture(scope="function", name="test_session")
 def fixture_session(test_config):
     """Creates a local database for unit testing"""
     # TODO: Replace this code with yield db.session.SessionLocal()
@@ -30,7 +30,7 @@ def fixture_session(test_config):
         yield session
 
 
-@pytest.fixture(scope="session", name="mock_client")
+@pytest.fixture(scope="function", name="mock_client")
 def fixture_client(test_session):
     """Exposes a mock client for api unit tests"""
 
