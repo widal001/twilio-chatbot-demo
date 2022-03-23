@@ -93,6 +93,7 @@ disable = [
   "C0103",  # Disables invalid variable name
   "W0511",  # Disables fix-me warning
   "R0801",  # Disables duplicate-code
+  "E1101",  # Disables no-member
 ]
 extension-pkg-whitelist = "pydantic"
 

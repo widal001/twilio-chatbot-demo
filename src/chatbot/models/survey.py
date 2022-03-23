@@ -12,5 +12,9 @@ class Survey(db.Base):
     created_date = db.Column(db.DateTime, default=db.func.now())
 
     # relationships
-    questions = db.relationship("Question", backref="survey")
     responses = db.relationship("Response", backref="survey")
+    questions = db.relationship(
+        "Question",
+        backref="survey",
+        lazy="dynamic",  # needed to make Question.next() filter work
+    )
