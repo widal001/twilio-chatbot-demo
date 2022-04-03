@@ -1,4 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm import Session
+
+from chatbot.crud import question, answer
+from chatbot.db import get_db
 
 router = APIRouter(prefix="/sms")
 
@@ -13,24 +17,28 @@ def new_message():
     return {"message": "Welcome to the survey"}
 
 
-@router.get("/surveys/{survey_id}/questions/{question_id}")
-def get_question(survey_id: int, question_id: int):
+@router.get("/questions/{question_id}")
+def get_question(question_id: int, db: Session = Depends(get_db)):
     """Prompts the user with the next question in the survey
 
     This endpoint is called by the TwiML redirect function when a new survey is
     initiated or after an answer to a previous question is recorded
     """
-    return {"survey": survey_id, "question": question_id}
+    record = question.get(db, question_id)
+    return {"survey": record.survey_id, "question": record.id}
 
 
-@router.post(
-    "/surveys/{survey_id}/questions/{question_id}/answers",
-    status_code=201,
-)
-def create_answer(survey_id: int, question_id: int):
+@router.post("/questions/{question_id}/answers", status_code=201)
+def record_answer(
+    question_id: int, answer_data: dict, db: Session = Depends(get_db)
+):
     """Records the answer to a survey question
 
     This endpoint is called by the TwiML redirect function after a response to
     a survey question is received and it redirects to the question endpoint
     """
-    return {"survey": survey_id, "answer": question_id}
+    curr_question = question.get(db, question_id)
+    print(dir(answer))
+    answer.save_response(db, curr_question, answer_data)
+    next_question = curr_question.next()
+    return {"current": curr_question.id, "next": next_question.id}
