@@ -14,3 +14,8 @@ class Question(db.Base):
 
     # relationships
     answers = db.relationship("Answer", backref="question")
+
+    def next(self):
+        """Returns the next question in the survey"""
+        questions = self.survey.questions
+        return questions.filter(Question.id > self.id).order_by("id").first()

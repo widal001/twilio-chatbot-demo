@@ -10,5 +10,5 @@ def test_database(test_session):
     for survey in surveys:
         assert survey.name in ["survey1", "survey2"]
         assert len(survey.responses) == 2
-        assert len(survey.questions) == 3
+        assert survey.questions.count() == 3  # needs count() b/c dynamic load
         assert survey.created_date is not None
